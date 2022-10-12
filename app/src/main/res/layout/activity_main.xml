@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/formulario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Formulario"/>
+
+    <Button
+        android:id="@+id/leerArchivo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leer"/>
+
+    <Button
+        android:id="@+id/servidor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Servidor"/>
+
+    <Button
+        android:id="@+id/cliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cliente"/>
+
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crear Archivo"/>
+
+    <Button
+        android:id="@+id/btnLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ubicacion"/>
+
+    <Button
+        android:id="@+id/btnWifiP2p"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WifiP2p"/>
+
+</LinearLayout>
