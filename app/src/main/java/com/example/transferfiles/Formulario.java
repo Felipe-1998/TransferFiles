@@ -15,8 +15,7 @@ import java.io.FileOutputStream;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-
-
+import java.io.OutputStreamWriter;
 public class Formulario extends AppCompatActivity {
 
     TextView tvObjecto;
@@ -40,7 +39,7 @@ public class Formulario extends AppCompatActivity {
     private void listenerWork() {
 
         txtUbicacion.setOnClickListener(v -> {
-                    //Ubicacion coordenadas = new Ubicacion(Formulario.this);
+                    Ubicacion coordenadas = new Ubicacion(Formulario.this);
                     ubicacion=Ubicacion.ub;
                    if(ubicacion != null){
                         obtenerUbicacion();
@@ -59,16 +58,13 @@ public class Formulario extends AppCompatActivity {
                     "Edad: " + afectado.getEdad() + "\n" +
                     "Ubicacion: " + afectado.getLugar());
 
-            FileOutputStream fichero = null;
+            OutputStreamWriter fichero = null;
 
             try{
-                fichero = openFileOutput("datosLocal.txt",Context.MODE_PRIVATE);
-
-                ObjectOutputStream oos = new ObjectOutputStream(fichero);
-                oos.writeObject(afectado);
+                fichero = new OutputStreamWriter(openFileOutput("datosLocal.txt",Context.MODE_PRIVATE));
+                fichero.write(afectado.getNombre()+";"+afectado.getEdad()+";" +afectado.getLugar());
+                fichero.flush();
                 fichero.close();
-                oos.close();
-
             }catch(Exception e){
                 Toast.makeText(Formulario.this, "errores: " +e , Toast.LENGTH_SHORT).show();
             }finally{

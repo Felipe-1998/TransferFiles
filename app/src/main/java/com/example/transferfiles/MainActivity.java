@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    Button servidor , cliente, formulario, leer, crear, ubicacion, wifiP2p;
+    Button servidor , cliente, formulario, leer, base, crear, ubicacion, wifiP2p;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         cliente = findViewById(R.id.cliente);
         formulario=findViewById(R.id.formulario);
         leer = findViewById(R.id.leerArchivo);
+        base = findViewById(R.id.btnBase);
         crear = findViewById(R.id.btnCreate);
         ubicacion = findViewById(R.id.btnLocation);
         wifiP2p=findViewById(R.id.btnWifiP2p);
@@ -31,9 +32,15 @@ public class MainActivity extends AppCompatActivity {
         cliente.setOnClickListener(v -> irACliente());
         formulario.setOnClickListener(v -> irAFormulario());
         leer.setOnClickListener(v -> leerArchivo());
+        base.setOnClickListener(v -> crearBase());
         crear.setOnClickListener(v -> crearArchivo());
         ubicacion.setOnClickListener(v -> obtenerUbicacion());
         wifiP2p.setOnClickListener(v -> irAReporte());
+    }
+
+    private void crearBase() {
+        Intent i = new Intent(this,BaseDeDatos   .class);
+        startActivity(i);
     }
 
     private void irAReporte() {

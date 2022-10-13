@@ -286,7 +286,7 @@ public class ReporteWifiP2p extends AppCompatActivity {
                 dis = new DataInputStream(s.getInputStream());
                 dos = new DataOutputStream(s.getOutputStream());
 
-                FileInputStream fis = openFileInput("datos.txt");
+                FileInputStream fis = openFileInput("datosLocal.txt");
                 byte[] buffer = new byte[4 * 1024];
                 fis.read(buffer);
                 dos.write(buffer);
