@@ -3,46 +3,50 @@ package com.example.transferfiles;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.transferfiles.controllers.ControllerDB;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 
 public class BaseDeDatos extends AppCompatActivity {
 
+    TextView tv_Base_datos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_de_datos);
-
+        tv_Base_datos=findViewById(R.id.tv_Base_datos);
         inicializar();
     }
 
     private void inicializar() {
         if(cantidadDeRegistros()==0){
             String[] texto = leerArchivo();
-            BaseHelper baseHelper = new BaseHelper(this, "mibase", null, 1);
-            SQLiteDatabase db = baseHelper.getWritableDatabase();
-            db.beginTransaction();
-
-            for(int i = 0; i< texto.length; i++){
-                String[] linea = texto[i].split(";");
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("Nombre",linea[0]);
-                contentValues.put("Edad", linea[1]);
-                contentValues.put("Lugar", linea[2]);
-                db.insert("Reportes",null, contentValues);
-            }
+            ControllerDB controllerDB = new ControllerDB(texto,this);
+            controllerDB.firstRegister();
             Toast.makeText(this,"Registros insertados!!!" + texto.length, Toast.LENGTH_SHORT).show();
-            db.setTransactionSuccessful();
-            db.endTransaction();
         } else {
             Toast.makeText(this,"La tabla ya estaba ok", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    private void dataShow() {
+        BaseHelper baseHelper = new BaseHelper(this, "mibase", null, 1);
+        SQLiteDatabase db = baseHelper.getReadableDatabase();
+        String[] projection = {"Id", "Nombre", "Edad", "Lugar","Cedula","Genero","Rh"};
+        Cursor cursor = db.query("Reportes", projection, null, null, null, null, null);
+        String nombre = cursor.getString(cursor.getColumnIndexOrThrow("Nombre"));
+        tv_Base_datos.setText(nombre);
+        cursor.close();
+        db.close();
     }
 
     private long cantidadDeRegistros() {
@@ -57,7 +61,7 @@ public class BaseDeDatos extends AppCompatActivity {
         InputStreamReader isr;
         ByteArrayOutputStream baos = null;
         try {
-            isr = new InputStreamReader(openFileInput("myFile.txt"));
+            isr = new InputStreamReader(openFileInput("datosSal.txt"));
             baos = new ByteArrayOutputStream();
             int i = isr.read();
             while (i != -1) {

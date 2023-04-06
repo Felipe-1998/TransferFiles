@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.NetworkInfo;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -30,22 +32,26 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
 
         if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
-
+            Toast notificacion;
             if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
-                Toast.makeText(context, "Wifi is ON", Toast.LENGTH_SHORT).show();
+                notificacion = Toast.makeText(context, "Wifi is ON", Toast.LENGTH_SHORT);
             } else {
-                Toast.makeText(context, "Wifi is OFF", Toast.LENGTH_SHORT).show();
+                notificacion=Toast.makeText(context, "Wifi is OFF", Toast.LENGTH_SHORT);
             }
+            notificacion.setGravity(Gravity.CENTER,0,0);
+            notificacion.show();
 
 
-        } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
+        }
+        else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
             if (mManager != null) {
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 mManager.requestPeers(mChannel, mActivity.peerListListener);
             }
-        }else if(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)){
+        }
+        else if(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)){
             if (mManager==null){
                 return;
             }
@@ -55,10 +61,20 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
             if(networkInfo.isConnected()){
                 mManager.requestConnectionInfo(mChannel,mActivity.connectionInfoListener);
             }else{
-                mActivity.connectionStatus.setText(("Device Disconnected"));
+                mActivity.connectionStatus.setText("Device Disconnected"); //(("Device Disconnected"))
             }
-        }else if(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)){
+
+            /**NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+            WifiP2pInfo wifiP2pInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+            if(networkInfo.isConnected() && wifiP2pInfo.groupFormed){
+                if (wifiP2pInfo.isGroupOwner) {
+                    mManager.requestGroupInfo(mChannel, mActivity.groupInfoListener);
+                }
+            }*/
+        }
+        else if(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)){
             //do somethings
+
         }
     }
 

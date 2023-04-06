@@ -3,16 +3,52 @@ package com.example.transferfiles;
 import java.io.Serializable;
 
 public class Afectado implements Serializable {
-    private String Nombre;
+    private String nombre;
     private String lugar;
-    private int edad;
+    private String edad;
+    private String cedula;
+    private String genero;
+    private String rh;
+
+    public Afectado(String nombre, String lugar, String edad, String cedula, String genero, String rh) {
+        this.nombre = nombre;
+        this.lugar = lugar;
+        this.edad = edad;
+        this.cedula = cedula;
+        this.genero = genero;
+        this.rh = rh;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getRh() {
+        return rh;
+    }
+
+    public void setRh(String rh) {
+        this.rh = rh;
+    }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
     public String getLugar() {
@@ -23,17 +59,13 @@ public class Afectado implements Serializable {
         this.lugar = lugar;
     }
 
-    public int getEdad() {
+    public String getEdad() {
         return edad;
     }
 
-    public void setEdad(int edad) {
+    public void setEdad(String edad) {
         this.edad = edad;
     }
 
-    public Afectado(String nombre, String lugar, int edad) {
-        Nombre = nombre;
-        this.lugar = lugar;
-        this.edad = edad;
-    }
+
 }

@@ -7,11 +7,14 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.transferfiles.controllers.ControllerDB;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,13 +26,32 @@ public class Location extends AppCompatActivity {
     int LOCATION_REQUEST_CODE = 1001;
     FusedLocationProviderClient fusedLocationProviderClient;
     public static String ub ;
-
+    Button reportar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-
+        initialWork();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+    }
+
+    private void initialWork() {
+        reportar = findViewById(R.id.btnReportar);
+        reportar.setOnClickListener(v -> irAFormulario());
+    }
+
+    private void irAFormulario() {
+        ControllerDB controllerDB = new ControllerDB(null,Location.this);
+        int registers = controllerDB.getRegistersQuantity();
+        Intent i;
+        if(registers==0){
+            i = new Intent(this,Formulario.class);
+            startActivity(i);
+        }else{
+            Toast.makeText(this, "WifiP2P", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     @Override

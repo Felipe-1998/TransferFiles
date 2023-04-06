@@ -1,47 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black_mode_dark"
+    android:padding="10dp"
     tools:context=".Formulario">
 
     <TextView
-        android:text="Formulario"
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:text="@string/formulario"
+        android:paddingBottom="5dp"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="italic" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtNombre"
-        android:hint="Nombre: "
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/tvTitle"
+        app:errorEnabled="true"
+        app:startIconTint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/white"
+        app:boxBackgroundColor="@color/black_mode_dark_l3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nombre"
+            android:textColor="@color/white_mode_dark"
+            android:inputType="text"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/txtEdad"
-        android:hint="Edad: "
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtApellido"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/txtNombre"
+        app:errorEnabled="true"
+        app:startIconTint="@color/white_mode_dark"
+        app:boxStrokeColor="@color/white_mode_dark"
+        app:hintTextColor="@color/white_mode_dark"
+        app:boxBackgroundColor="@color/black_mode_dark_l3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/apellido"
+            android:textColor="@color/white_mode_dark"
+            android:inputType="text"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtCedula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/txtApellido"
+        app:errorEnabled="true"
+        app:startIconTint="@color/white_mode_dark"
+        app:boxStrokeColor="@color/white_mode_dark"
+        app:hintTextColor="@color/white_mode_dark"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        app:counterTextColor="@color/white"
+        app:helperText="Número de identificación"
+        app:helperTextTextColor="@color/white"
+        app:boxBackgroundColor="@color/black_mode_dark_l3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cedula"
+            android:textColor="@color/white_mode_dark"
+            android:inputType="number"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtFechaDeNacimiento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/txtCedula"
+        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/ic_calendar"
+        app:startIconTint="@color/white_mode_dark"
+        app:boxStrokeColor="@color/white_mode_dark"
+        app:hintTextColor="@color/white_mode_dark"
+        app:boxBackgroundColor="@color/black_mode_dark_l3"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fecha"
+            android:inputType="datetime"
+            android:textColor="@color/white_mode_dark" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtGenero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/txtFechaDeNacimiento"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        app:boxBackgroundMode="outline"
+        app:errorEnabled="true"
+        app:startIconTint="@color/white_mode_dark"
+        app:boxStrokeColor="@color/white_mode_dark"
+        app:hintTextColor="@color/white_mode_dark"
+        app:helperText="Genero"
+        app:helperTextTextColor="@color/white_mode_dark"
+        app:boxBackgroundColor="@color/black_mode_dark_l3"
+        >
+        <AutoCompleteTextView
+            android:id="@+id/auto_Complete_Genero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/genero"
+            android:textColor="@color/white_mode_dark"
+            android:inputType="none"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtRH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_alignBaseline="@+id/txtGenero"
+        android:layout_alignBottom="@+id/txtGenero"
+        android:layout_centerHorizontal="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        app:boxBackgroundMode="outline"
+        app:errorEnabled="true"
+        app:startIconTint="@color/white_mode_dark"
+        app:boxStrokeColor="@color/white_mode_dark"
+        app:hintTextColor="@color/white_mode_dark"
+        app:helperText="RH"
+        app:helperTextTextColor="@color/white_mode_dark"
+        app:boxBackgroundColor="@color/black_mode_dark_l3"
+        >
+        <AutoCompleteTextView
+            android:id="@+id/auto_Complete_RH"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/rh"
+            android:textColor="@color/white_mode_dark"
+            android:inputType="none"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtUbicacion"
-        android:hint="Ubicacion: "
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="true"/>
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/txtRH"
+        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconTint="@color/white_mode_dark"
+        app:boxStrokeColor="@color/white_mode_dark"
+        app:hintTextColor="@color/white_mode_dark"
+        app:boxBackgroundColor="@color/black_mode_dark_l3"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ubicacion"
+            android:textColor="@color/white_mode_dark"
+            android:inputType="none|text"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/txtUbicacion"
+        app:errorEnabled="true"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/ic_password"
+        app:startIconTint="@color/white_mode_dark"
+        app:boxStrokeColor="@color/white_mode_dark"
+        app:hintTextColor="@color/white_mode_dark"
+        app:boxBackgroundColor="@color/black_mode_dark_l3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:textColor="@color/white_mode_dark"
+            android:inputType="textWebPassword"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSalve"
-        android:text="Guardar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/guardar"
+        android:paddingRight="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#06800F"
+        android:layout_below="@+id/txt_password"
+        app:cornerRadius="20dp"
+        />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnSalve"
+        android:layout_alignBottom="@+id/btnSalve"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/btnSalve"
+        android:backgroundTint="#BFFB0101"
+        android:paddingRight="30dp"
+        android:text="Cancelar"
+        app:cornerRadius="20dp" />
 
     <TextView
         android:id="@+id/tvObjecto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSalve"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:text="@string/prueba"/>
 
-</LinearLayout>
+
+</RelativeLayout>
+</ScrollView>

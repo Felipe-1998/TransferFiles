@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">TransferFiles</string>
+    <string name="app_name">Affectation Reporting System</string>
+    <string name="formulario">Formulario para reportar afectaciones</string>
+    <string name="nombre">Nombre:</string>
+    <string name="apellido">Apellido:</string>
+    <string name="cedula">Cedula:</string>
+    <string name="fecha">Fecha de Nacimiento:</string>
+    <string name="edad">Edad:</string>
+    <string name="genero">Genero:</string>
+    <string name="ubicacion">Ubicacion:</string>
+    <string name="guardar">Guardar</string>
+    <string name="rh">RH+</string>
+    <string name="prueba">prueba</string>
+    <string name="texto_bienvenida_p1"
+        >¡Hola! Bienvenido al Sistema de Reporte de Afectaciones, una aplicación diseñada para ayudar a las personas a informar sobre las afectaciones causadas por eventos catastróficos naturales.</string>
+    <string name="texto_bienvenida_p2"
+        >Nuestra aplicación utiliza tecnologías innovadoras como Wifi Direct y geolocalización para permitir que los usuarios envíen informes de afectaciones, incluso cuando no tienen conexión a internet. Esto significa que incluso en áreas remotas o donde la conectividad es limitada, las personas pueden informar sobre las afectaciones que han sufrido.</string>
+    <string name="texto_bienvenida_p3"
+        >La aplicación es fácil de usar y está diseñada para que cualquier persona pueda informar sobre las afectaciones que han experimentado. Simplemente seleccione el tipo de evento catastrófico que ha ocurrido, como un terremoto, inundación o huracán, y proporcione detalles sobre las afectaciones que ha experimentado. Con la geolocalización integrada, también puede compartir su ubicación para que los equipos de respuesta puedan llegar a usted lo antes posible.</string>
 </resources>

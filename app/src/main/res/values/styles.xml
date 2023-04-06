@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="guardar" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">#000000</item>
+    </style>
+    <style name="ColorToForm" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+    </style>
+</resources>

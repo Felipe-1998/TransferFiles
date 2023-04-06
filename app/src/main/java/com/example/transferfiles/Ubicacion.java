@@ -17,8 +17,9 @@ import com.google.android.gms.tasks.Task;
 
 public class Ubicacion extends FusedLocationProviderClient {
 
-    private FusedLocationProviderClient fusedLocationProviderClient;
+    private final FusedLocationProviderClient fusedLocationProviderClient;
     public static String ub;
+
 
     public Ubicacion(@NonNull Activity activity) {
         super(activity);
@@ -41,8 +42,7 @@ public class Ubicacion extends FusedLocationProviderClient {
 
                 if(location != null)
                 {
-                    //Toast.makeText(getApplicationContext(), location.getLatitude() + "," + location.getLongitude(),Toast.LENGTH_SHORT).show();
-                    ub=location.getLatitude()+"," + location.getLongitude();
+                    ub=location.getLatitude()+";" + location.getLongitude();
 
                 }
                 else
@@ -56,10 +56,11 @@ public class Ubicacion extends FusedLocationProviderClient {
         locationTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                e.printStackTrace();
+                Toast.makeText(getApplicationContext(),"Error" + e , Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
 
 }

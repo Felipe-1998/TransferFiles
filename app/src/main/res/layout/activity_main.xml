@@ -5,31 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:padding="10dp"
+    android:visibility="visible"
+    tools:context=".MainActivity"
+    tools:visibility="visible">
 
     <Button
         android:id="@+id/formulario"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Formulario"/>
+        android:text="Formulario"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/purple_700" />
 
     <Button
         android:id="@+id/leerArchivo"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Leer"/>
+        android:text="Leer"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/purple_700" />
+
+    <Button
+        android:id="@+id/calDistancia"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="calcular Distancia"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/purple_700" />
 
     <Button
         android:id="@+id/btnBase"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Base de datos"/>
-
+        android:text="Base de datos"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/purple_700" />
+    <!--
     <Button
         android:id="@+id/servidor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Servidor"/>
+
 
     <Button
         android:id="@+id/cliente"
@@ -43,16 +65,43 @@
         android:layout_height="wrap_content"
         android:text="Crear Archivo"/>
 
+        -->
+
     <Button
         android:id="@+id/btnLocation"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ubicacion"/>
+        android:text="Ubicacion"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/purple_700" />
 
     <Button
         android:id="@+id/btnWifiP2p"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="WifiP2p"/>
+        android:text="WifiP2p"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/purple_700" />
+
+    <Button
+        android:id="@+id/btnPetition"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GET PETITION"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/purple_700" />
+
+    <Button
+        android:id="@+id/btnPost"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="POST PETITION"
+        app:cornerRadius="20dp"
+        app:strokeColor="@color/purple_700" />
+
 
 </LinearLayout>

@@ -24,15 +24,14 @@ public class LeerArchivo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leer_archivo);
-
+        //Instanciar elementos
         tablero = findViewById(R.id.tablero);
         tablero2 = findViewById(R.id.tablero2);
         tablero3 = findViewById(R.id.tablero3);
-
+        //Iniciar metodos
         unirArchivos();
         leerArchivo1();
         leerArchivo2();
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -42,30 +41,38 @@ public class LeerArchivo extends AppCompatActivity {
         OutputStreamWriter miArchivo; //Manipular archivo
         FileInputStream fis1;
         FileInputStream fis2;
+        String texto1;
         String texto2;
+        String texto="";
 
-        if (existe(archivos, "datosLocal.txt") && existe(archivos, "datosEntrada.txt")){
+        if (existe(archivos, "datosLocal.txt") && existe(archivos, "datosEnt.txt")){
             try {
                 fis1 = openFileInput("datosLocal.txt");
                 BufferedReader bf1 = new BufferedReader(new InputStreamReader(fis1));
-                String texto1 = bf1.readLine();
+                texto1 = bf1.readLine();
 
-                fis2 = openFileInput("datosEntrada.txt");
 
+                fis2 = openFileInput("datosEnt.txt");
                 BufferedReader bf2 = new BufferedReader(new InputStreamReader(fis2));
                 texto2 = bf2.readLine();
+                while(texto2 != null){
+                    texto = texto + texto2+"\n";
+                    texto2=bf2.readLine();
+                }
 
-                miArchivo = new OutputStreamWriter(openFileOutput("myFile.txt",Context.MODE_PRIVATE));
+                miArchivo = new OutputStreamWriter(openFileOutput("datosSal.txt",Context.MODE_PRIVATE));
                 Toast.makeText(this,"Archivo Creado",Toast.LENGTH_SHORT).show();
 
+
                 miArchivo.write(texto1+"\n");
-                miArchivo.write(texto2+"\n");
+                miArchivo.write(texto+"\n");
 
 
                 miArchivo.flush();
                 miArchivo.close();
 
-                tablero3.setText(texto1 + "\n" + texto2 + "\n");
+
+                tablero3.setText(texto1 + "\n" + texto + "\n");
 
 
             } catch (Exception e)
@@ -77,10 +84,10 @@ public class LeerArchivo extends AppCompatActivity {
             try {
                 fis1 = openFileInput("datosLocal.txt");
                 BufferedReader bf1 = new BufferedReader(new InputStreamReader(fis1));
-                String texto1 = bf1.readLine();
+                texto1 = bf1.readLine();
 
-                miArchivo = new OutputStreamWriter(openFileOutput("myFile.txt",Context.MODE_PRIVATE));
-                Toast.makeText(this,"Archivo Creado",Toast.LENGTH_SHORT).show();
+                miArchivo = new OutputStreamWriter(openFileOutput("datosSal.txt",Context.MODE_PRIVATE));
+                Toast.makeText(this,"Archivo ya existe",Toast.LENGTH_SHORT).show();
 
                 miArchivo.write(texto1+"\n");
 
@@ -88,7 +95,6 @@ public class LeerArchivo extends AppCompatActivity {
                 miArchivo.close();
 
                 tablero3.setText(texto1 + "\n");
-
 
             } catch (Exception e)
             {
@@ -111,10 +117,17 @@ public class LeerArchivo extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void leerArchivo2() {
         FileInputStream fis;
+        String cadena;
+        String texto = "";
         try{
-            fis = openFileInput("datosEntrada.txt");
+            fis = openFileInput("datosEnt.txt");
             BufferedReader bf = new BufferedReader(new InputStreamReader(fis));
-            String texto = bf.readLine();
+            cadena = bf.readLine();
+            while(cadena != null){
+                texto= texto + cadena+"\n";
+                cadena=bf.readLine();
+            }
+            fis.close();
             tablero2.setText(texto);
         }catch (Exception e ){
             e.printStackTrace();
@@ -124,10 +137,19 @@ public class LeerArchivo extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     public void leerArchivo1(){
         FileInputStream fis;
+        String cadena;
+        String texto="";
         try{
-            fis = openFileInput("datosLocal.txt");
+            //fis = openFileInput("datosLocal.txt");
+            fis = openFileInput("datosSal.txt");
             BufferedReader bf = new BufferedReader(new InputStreamReader(fis));
-            String texto = bf.readLine();
+            cadena = bf.readLine();
+            while(cadena != null){
+                texto= texto + cadena+"\n";
+                cadena=bf.readLine();
+            }
+            bf.close();
+            fis.close();
             tablero.setText(texto);
 
         }catch (Exception e ){

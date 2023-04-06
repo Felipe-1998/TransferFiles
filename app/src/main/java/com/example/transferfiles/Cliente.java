@@ -53,9 +53,6 @@ public class Cliente extends AppCompatActivity {
 
         btnSend.setOnClickListener(v -> iniciarCliente());
         //btnRead.setOnClickListener(v -> leer());
-
-
-
     }
 
     /**

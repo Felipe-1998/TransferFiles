@@ -1,4 +1,5 @@
 package com.example.transferfiles;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,6 +29,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -57,8 +59,16 @@ public class ReporteWifiP2p extends AppCompatActivity {
     ClienteClass clienteClass;
     //SendReceive sendReceive;
 
+    //variable de impulso
+    int impulso = 0;
+    //File
+    // /
+
     private static DataOutputStream dos = null;
     private static DataInputStream dis = null;
+
+    //Address ip conetion
+    private InetAddress groupOwnerAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +77,79 @@ public class ReporteWifiP2p extends AppCompatActivity {
 
         InitialWork();
         verificarPermisos();
-
-
     }
+
+    private void createGroup() {
+        //crear grupo
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mManager.createGroup(mChannel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(getApplicationContext(), "group created", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int i) {
+                Toast.makeText(getApplicationContext(), "group don't create", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void removeGroup(){
+        mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(getApplicationContext(), "group removed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int i) {
+                Toast.makeText(getApplicationContext(), "group don't remove", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     WifiP2pManager.GroupInfoListener groupInfoListener = new WifiP2pManager.GroupInfoListener() {
+    @Override public void onGroupInfoAvailable(WifiP2pGroup wifiP2pGroup) {
+
+    InetAddress inetAddress = wifiP2pGroup.getOwner()
+    try {
+    inetAddress = InetAddress.getByName(owner.deviceAddress);
+    } catch (UnknownHostException e) {
+    e.printStackTrace();
+    }
+    if(wifiP2pGroup.isGroupOwner()){
+    connectionStatus.setText("Host");
+    serverClass=new ServerClass();
+    serverClass.start();
+    }else{
+    connectionStatus.setText("Client");
+    clienteClass=new ClienteClass(inetAddress);
+    clienteClass.start();
+    }
+    //if (wifiP2pGroup != null) {
+    // clients require these
+    //String ssid = wifiP2pGroup.getNetworkName();
+    //String passphrase = wifiP2pGroup.getPassphrase();
+    //List<WifiP2pDevice> connectedDevices = new ArrayList<>(wifiP2pGroup.getClientList());
+    Log.d("myDevices", "hola");
+    //}
+    //List<WifiP2pDevice> connectedDevices = new ArrayList<>(wifiP2pGroup.getClientList());
+    //Log.d("myDevices2", "hola2");
+    }
+    };
+     */
+
 
     private void verificarPermisos() {
         int Permiso1 = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int Permiso2 = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
         if (Permiso1 == PackageManager.PERMISSION_GRANTED && Permiso2 == PackageManager.PERMISSION_GRANTED) {
             exqListener();
-            Toast.makeText(this, "Permisos aceptados", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Permisos aceptados", Toast.LENGTH_SHORT).show();
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
@@ -87,26 +160,35 @@ public class ReporteWifiP2p extends AppCompatActivity {
 
 
     /**
-    Handler handler = new Handler(new Handler.Callback() {
-        @ O verride //unir
-        public boolean handleMessage(@NonNull Message msg) {
-            if (msg.what == MESSAGE_READ) {
-                byte[] readBuff = (byte[]) msg.obj;
-                String tempMsg = new String(readBuff, 0, msg.arg1);
-                read_msg_box.setText(tempMsg);
-            }
-            return true;
-        } //se hicieron cambios con el original
-    });
+     Handler handler = new Handler(new Handler.Callback() {
+     @ O verride //unir
+     public boolean handleMessage(@NonNull Message msg) {
+     if (msg.what == MESSAGE_READ) {
+     byte[] readBuff = (byte[]) msg.obj;
+     String tempMsg = new String(readBuff, 0, msg.arg1);
+     read_msg_box.setText(tempMsg);
+     }
+     return true;
+     } //se hicieron cambios con el original
+     });
      **/
 
     private void exqListener() {
-        btnOnOff.setOnClickListener(v -> wifiManager.setWifiEnabled(!wifiManager.isWifiEnabled()));
+        btnOnOff.setOnClickListener(v -> {
+            if(!wifiManager.isWifiEnabled()){
+                wifiManager.setWifiEnabled(!wifiManager.isWifiEnabled());
+                createGroup();
+            }else{
+                wifiManager.setWifiEnabled(!wifiManager.isWifiEnabled());
+                removeGroup();
+            }
+        });
 
         btnDiscover.setOnClickListener(v -> {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
+            //Buscando dispositivos...
             mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -119,7 +201,7 @@ public class ReporteWifiP2p extends AppCompatActivity {
                 @Override
                 public void onFailure(int i) {
                     connectionStatus.setText("Discovery Starting Failed");
-                    Toast.makeText(getApplicationContext(), "Discovery Started", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Discovery Starting Failed", Toast.LENGTH_SHORT).show();
                 }
             });
         });
@@ -128,46 +210,99 @@ public class ReporteWifiP2p extends AppCompatActivity {
             final WifiP2pDevice device = deviceArray[i];
             WifiP2pConfig config = new WifiP2pConfig();
             config.deviceAddress = device.deviceAddress;
-
+            config.groupOwnerIntent = 7;
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(getApplicationContext(),"Connected to " +device.deviceName,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Connected to " + device.deviceName, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure(int i) {
-                    Toast.makeText(getApplicationContext(),"Not Connected",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Not Connected", Toast.LENGTH_SHORT).show();
                 }
             });
-
         });
 
         btnSend.setOnClickListener(v -> {
             //String msg=writeMsg.getText().toString();
             //sendReceive.write(msg.getBytes(StandardCharsets.UTF_8));
-
+            enviarReporte();
         });
     }
 
+    private void enviarReporte() {
+        if(connectionStatus.getText().toString().equals("Client")){
+            Socket s = clienteClass.getHost();
+            if(s.isConnected()){
+                try {
+                    dos = new DataOutputStream(s.getOutputStream());
+                    FileInputStream fileInputStream = openFileInput("datosSal.txt");
+                    byte[] buffer = new byte[4 * 1024];
+                    fileInputStream.read(buffer);
+                    dos.write(buffer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(this, "Enviando reporte", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "No conectado", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        /**try {
+            //Socket s = new Socket();
+            //s.connect(new InetSocketAddress(groupOwnerAddress.getHostAddress(),8000),10000);
+            Socket s = clienteClass.getHost();
+            //dis = new DataInputStream(s.getInputStream());
+            dos = new DataOutputStream(s.getOutputStream());
+            FileInputStream fis = openFileInput("datosSal.txt");
+            byte[] buffer = new byte[4 * 1024];
+            fis.read(buffer);
+            dos.write(buffer);
+            dos.flush();
+            dis.close();
+            dos.close();
+            //s.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+
+        //s.connect(new InetSocketAddress(hostAdd,8000));
+        //connectionStatus.setText("Conn to " + hostAdd);
+        /**dis = new DataInputStream(s.getInputStream());
+         dos = new DataOutputStream(s.getOutputStream());
+
+
+
+         dos.write(buffer);
+         dos.flush();
+         dis.close();
+         dos.close();
+         s.close();*/
+
+    }
+
     private void InitialWork() {
-        btnOnOff=(Button) findViewById(R.id.onOff);
-        btnDiscover=(Button) findViewById(R.id.discover);
-        btnSend=(Button) findViewById(R.id.sendButton);
-        listView=(ListView) findViewById(R.id.peerListView);
-        read_msg_box=(TextView) findViewById(R.id.readMSG);
-        connectionStatus=(TextView) findViewById(R.id.connectionStatus);
-        writeMsg=(EditText) findViewById(R.id.writeMsg);
+        btnOnOff = (Button) findViewById(R.id.onOff);
+        btnDiscover = (Button) findViewById(R.id.discover);
+        btnSend = (Button) findViewById(R.id.sendButton);
+        listView = (ListView) findViewById(R.id.peerListView);
+        read_msg_box = (TextView) findViewById(R.id.readMSG);
+        connectionStatus = (TextView) findViewById(R.id.connectionStatus);
+        writeMsg = (EditText) findViewById(R.id.writeMsg);
 
-        wifiManager=(WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
-        mManager=(WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        mChannel=mManager.initialize(this,getMainLooper(),null);
-        mReceiver=new WifiDirectBroadcastReceiver(mManager,mChannel,this);
-        mIntentFilter=new IntentFilter();
+        mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
+        mChannel = mManager.initialize(this, getMainLooper(), null);
+        createGroup();
+        mReceiver = new WifiDirectBroadcastReceiver(mManager, mChannel, this);
+        mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
@@ -206,7 +341,8 @@ public class ReporteWifiP2p extends AppCompatActivity {
         @SuppressLint("SetTextI18n")
         @Override
         public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
-            final InetAddress groupOwnerAddress=wifiP2pInfo.groupOwnerAddress;
+            //final InetAddress groupOwnerAddress=wifiP2pInfo.groupOwnerAddress;
+            groupOwnerAddress=wifiP2pInfo.groupOwnerAddress;
 
             if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner){
                 connectionStatus.setText("Host");
@@ -214,7 +350,7 @@ public class ReporteWifiP2p extends AppCompatActivity {
                 serverClass.start();
             }else{
                 connectionStatus.setText("Client");
-                clienteClass=new ClienteClass(groupOwnerAddress);
+                clienteClass= new ClienteClass(groupOwnerAddress);
                 clienteClass.start();
             }
         }
@@ -246,7 +382,6 @@ public class ReporteWifiP2p extends AppCompatActivity {
 
                     s = ss.accept();
 
-
                     dis = new DataInputStream(s.getInputStream());
                     dos = new DataOutputStream(s.getOutputStream());
 
@@ -254,7 +389,7 @@ public class ReporteWifiP2p extends AppCompatActivity {
                     try{
                         byte[] buffer = new byte[4 * 1024];
                         dis.read(buffer);
-                        FileOutputStream fos=openFileOutput("datosEntrada.txt",MODE_PRIVATE);
+                        FileOutputStream fos=openFileOutput("datosEnt.txt",MODE_PRIVATE);
                         fos.write(buffer);
                     }catch (Exception e){
                         e.printStackTrace();
@@ -271,9 +406,10 @@ public class ReporteWifiP2p extends AppCompatActivity {
         }
     }
 
-    public class ClienteClass extends Thread{
+    public static class ClienteClass extends Thread{
         Socket s;
         String hostAdd;
+        //byte[] buffer;
         public ClienteClass(InetAddress hostAddress){
             hostAdd=hostAddress.getHostAddress();
             s=new Socket();
@@ -282,25 +418,28 @@ public class ReporteWifiP2p extends AppCompatActivity {
         @Override
         public void run() {
             try{
-                s.connect(new InetSocketAddress(hostAdd,8000),500);
-                dis = new DataInputStream(s.getInputStream());
+                s.connect(new InetSocketAddress(hostAdd,8000));
+                //connectionStatus.setText("Conn to " + hostAdd);
+                /**dis = new DataInputStream(s.getInputStream());
                 dos = new DataOutputStream(s.getOutputStream());
-
-                FileInputStream fis = openFileInput("datosLocal.txt");
-                byte[] buffer = new byte[4 * 1024];
+                FileInputStream fis = openFileInput("datosSal.txt");
+                buffer = new byte[4 * 1024];
                 fis.read(buffer);
                 dos.write(buffer);
-
                 dos.flush();
                 dis.close();
                 dos.close();
-                s.close();
-
+                s.close();*/
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
+
+        public Socket getHost() {
+            return s;
+        }
     }
+
 
 /**
     public class ServerClass extends Thread{
